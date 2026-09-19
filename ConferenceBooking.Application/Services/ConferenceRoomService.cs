@@ -58,16 +58,16 @@ public class ConferenceRoomService(
         await conferenceRoomRepository.DeleteRoom(conferenceRoomId, cancellationToken);
     }
 
-    public async Task<List<ConferenceRoomResponse>> GetAvailableRooms(SearchAvaibleRoomsRequest request,
+    public async Task<List<ConferenceRoomResponse>> GetAvailableRooms(SearchAvailableRoomsRequest request,
         CancellationToken cancellationToken)
     {
-        if(request.startUtc >= request.endUtc)
+        if(request.StartUtc >= request.EndUtc)
             throw new InvalidBookingRequestException("Search end time must be after the start time.");
         
         var rooms = await conferenceRoomRepository.GetAvailableRooms(
-            request.startUtc, 
-            request.endUtc, 
-            request.minCapacity,
+            request.StartUtc, 
+            request.EndUtc, 
+            request.MinCapacity,
             cancellationToken);
         
         return rooms.Select(MapToDto).ToList();

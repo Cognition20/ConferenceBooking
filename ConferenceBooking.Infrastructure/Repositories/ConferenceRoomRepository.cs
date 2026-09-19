@@ -35,7 +35,7 @@ public class ConferenceRoomRepository(AppDbContext dbContext) : IConferenceRoomR
 
     public async Task<List<ConferenceRoom>> GetAvailableRooms(DateTime startUtc, DateTime endUtc, int? minCapacity, CancellationToken cancellationToken)
     {
-        var query = dbContext.ConferenceRooms.AsQueryable();
+        var query = dbContext.ConferenceRooms.Include(s => s.Services).AsQueryable();
 
         if (minCapacity is { } capacity)
             query = query.Where(r => r.Capacity >= capacity);

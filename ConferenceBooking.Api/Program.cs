@@ -1,5 +1,5 @@
 using ConferenceBooking.Api;
-using ConferenceBooking.Api.Middleware;
+using ConferenceBooking.Api.Extentions;
 using ConferenceBooking.Application;
 using ConferenceBooking.Infrastructure;
 
@@ -21,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseDomainExceptionHandling();
 app.UseHttpsRedirection();
 app.MapControllers();
 

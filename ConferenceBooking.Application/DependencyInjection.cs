@@ -1,7 +1,10 @@
 ﻿using ConferenceBooking.Application.Interfaces.Services;
+using ConferenceBooking.Application.RequestValidation;
 using ConferenceBooking.Application.Services;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace ConferenceBooking.Application;
 
@@ -15,6 +18,8 @@ public static class DependencyInjection
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<CreateBookingValidation>();
         services.AddScoped<IConferenceRoomService, ConferenceRoomService>();
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IServiceService, ServiceService>();

@@ -10,5 +10,5 @@ public interface IConferenceRoomService
     Task<ConferenceRoomResponse> CreateRoom(CreateConferenceRoomRequest request, CancellationToken cancellationToken);
     Task<ConferenceRoomResponse> UpdateRoom(Guid id, UpdateConferenceRoomRequest request, CancellationToken cancellationToken);
     Task DeleteRoom(Guid conferenceRoomId, CancellationToken cancellationToken);
-    Task<List<ConferenceRoomResponse>> GetAvailableRooms( SearchAvaibleRoomsRequest request,CancellationToken cancellationToken);
+    Task<List<ConferenceRoomResponse>> GetAvailableRooms( SearchAvailableRoomsRequest request,CancellationToken cancellationToken);
 }
