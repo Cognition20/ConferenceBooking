@@ -30,7 +30,7 @@ public class ConferenceRoomController(IConferenceRoomService conferenceRoomServi
         return NoContent();
     }
 
-    [HttpGet("getRooms")]
+    [HttpGet("getAvailableRooms")]
     public async Task<IActionResult> GetAvailableRooms([FromQuery] SearchAvailableRoomsRequest request, CancellationToken cancellationToken)
     {
         var result = await conferenceRoomService.GetAvailableRooms(request, cancellationToken);

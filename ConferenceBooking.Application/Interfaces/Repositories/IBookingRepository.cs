@@ -6,5 +6,8 @@ public interface IBookingRepository
 {
     Task CreateBooking(Booking booking, CancellationToken cancellationToken);
     Task DeleteBooking(Booking booking, CancellationToken cancellationToken);
+
     Task<bool> IsBooked(Guid conferenceId, DateTime startAtUtc, DateTime endAtUtc, CancellationToken cancellationToken);
+    
+    Task<bool> HasAnyBookingsAsync(Guid roomId, CancellationToken cancellationToken);
 }

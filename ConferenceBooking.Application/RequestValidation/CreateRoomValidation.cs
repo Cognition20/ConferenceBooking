@@ -15,6 +15,9 @@ public class CreateRoomValidation : AbstractValidator<CreateConferenceRoomReques
         RuleFor(x => x.Capacity)
             .NotEmpty().WithMessage("Capacity is required")
             .InclusiveBetween(10, 5000).WithMessage("Capacity must be greater than 10 characters");
+
+        RuleForEach(x => x.Services)
+            .SetValidator(new CreateServiceValidation());
         
         RuleFor(x => x.PricePerHour)
             .NotEmpty().WithMessage("PricePerHour is required")

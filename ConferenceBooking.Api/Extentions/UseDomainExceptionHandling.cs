@@ -19,6 +19,7 @@ public static class ExceptionHandlingExtensions
                 {
                     RoomNotFoundException or ServiceNotFoundException => (StatusCodes.Status404NotFound, exception.Message),
                     BookingConflictException => (StatusCodes.Status409Conflict, exception.Message),
+                    RoomHasBookingsException => (StatusCodes.Status409Conflict, exception.Message),
                     DomainException => (StatusCodes.Status400BadRequest, exception.Message),
                     ArgumentException => (StatusCodes.Status400BadRequest, exception.Message),
                     _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")

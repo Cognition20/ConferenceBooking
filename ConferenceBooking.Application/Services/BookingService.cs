@@ -41,11 +41,7 @@ public class BookingService(IBookingRepository bookingRepository,
                 if (roomService is null)
                     throw new ServiceNotAvailableForRoomException(serviceId, room.Id);
                 
-                var service = await serciceRepository.GetById(serviceId, cancellationToken);
-                if (service is null)
-                    throw new ServiceNotFoundException(serviceId);
-                
-                services.Add(service);
+                services.Add(roomService);
             }            
         }
         
@@ -78,6 +74,7 @@ public class BookingService(IBookingRepository bookingRepository,
     private BookingResponse MapToDto(Booking booking)
     {
         return new BookingResponse(
+            booking.Id,
             true,
             booking.TotalPrice);
     }

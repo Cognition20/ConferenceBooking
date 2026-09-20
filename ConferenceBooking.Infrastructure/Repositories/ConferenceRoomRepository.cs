@@ -14,7 +14,9 @@ public class ConferenceRoomRepository(AppDbContext dbContext) : IConferenceRoomR
 
     public async Task<ConferenceRoom?> GetRoomById(Guid id, CancellationToken cancellationToken)
     {
-        return await dbContext.ConferenceRooms.FirstOrDefaultAsync(c => c.Id == id,  cancellationToken);
+        return await dbContext.ConferenceRooms
+            .Include(s => s.Services)
+            .FirstOrDefaultAsync(c => c.Id == id,  cancellationToken);
     }
 
     public async Task<ConferenceRoom> CreateRoom(ConferenceRoom conferenceRoom, CancellationToken cancellationToken)

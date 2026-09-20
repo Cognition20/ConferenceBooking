@@ -23,6 +23,6 @@ public class ServiceService(IServiceRepository serviceRepository, IUnitOfWork un
 
     private ServiceResponse MapToDto(Service service)
     {
-        return new ServiceResponse(service.Name, service.Price);
+        return new ServiceResponse(service.Id, service.Name, service.Price);
     }
 }

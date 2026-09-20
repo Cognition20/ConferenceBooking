@@ -9,7 +9,9 @@ namespace ConferenceBooking.Application.Services;
 
 public class ConferenceRoomService(
     IConferenceRoomRepository conferenceRoomRepository,
-    IServiceRepository serviceRepository, IUnitOfWork unitOfWork) : IConferenceRoomService
+    IServiceRepository serviceRepository, 
+    IBookingRepository  bookingRepository,
+    IUnitOfWork unitOfWork) : IConferenceRoomService
 {
     public async Task<ConferenceRoomResponse> CreateRoom(CreateConferenceRoomRequest request, CancellationToken cancellationToken)
     {
@@ -55,7 +57,15 @@ public class ConferenceRoomService(
 
     public async Task DeleteRoom(Guid conferenceRoomId, CancellationToken cancellationToken)
     {
+        var room = await conferenceRoomRepository.GetRoomById(conferenceRoomId, cancellationToken);
+        if (room is null)
+            throw new RoomNotFoundException(conferenceRoomId);
+        
+        if(await bookingRepository.HasAnyBookingsAsync(conferenceRoomId, cancellationToken))
+            throw new RoomHasBookingsException(conferenceRoomId);
+        
         await conferenceRoomRepository.DeleteRoom(conferenceRoomId, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<List<ConferenceRoomResponse>> GetAvailableRooms(SearchAvailableRoomsRequest request,
@@ -98,7 +108,7 @@ public class ConferenceRoomService(
             conRoom.Id,
             conRoom.Name,
             conRoom.Capacity,
-            conRoom.Services.Select(s => new ServiceResponse(s.Name, s.Price)).ToList(), 
+            conRoom.Services.Select(s => new ServiceResponse(s.Id, s.Name, s.Price)).ToList(), 
             conRoom.PricePerHour);
     }
 }

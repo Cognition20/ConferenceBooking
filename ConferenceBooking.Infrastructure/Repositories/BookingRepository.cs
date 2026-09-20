@@ -25,4 +25,7 @@ public class BookingRepository(AppDbContext dbContext) : IBookingRepository
             b.StartAtUtc < EndAtUtc.ToUniversalTime() &&
             startAtUtc.ToUniversalTime() < b.EndAtUtc, cancellationToken);
     }
+    
+    public Task<bool> HasAnyBookingsAsync(Guid roomId, CancellationToken cancellationToken) =>
+        dbContext.Bookings.AnyAsync(b => b.ConferenceRoomId == roomId, cancellationToken);
 }

@@ -31,3 +31,9 @@ public sealed class InvalidBookingRequestException : DomainException
 {
     public InvalidBookingRequestException(string message) : base(message) { }
 }
+
+public sealed class RoomHasBookingsException : DomainException
+{
+    public RoomHasBookingsException(Guid roomId)
+        : base($"Room '{roomId}' cannot be deleted because it has existing bookings.") { }
+}
